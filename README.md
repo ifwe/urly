@@ -11,19 +11,24 @@ var urly = new Urly();
 
 // Register a mapping
 urly.register('/users.html?userId', '/users/:userId');
+urly.register('/photos/:photoId', '/photos.html?photoId=:photoId');
 
-// Map a url
+// Map your urls!
 urly.map('/users.html?userId=123'); // returns `/users/123`
 urly.map('/users.html?userId=456'); // returns `/users/456`
 urly.map('/users.html'); // returns `false`, missing `userId` query string parameter
+urly.map('/photos/789'); // returns `/photos.html?photoId=789`
+urly.map('/photos'); // returns `false`, missing `photoId` param
 ```
 
 ## Advanced Usage
 
+You may provide a callback function to handle mapping the URL. When matched, the callback function will be invoked with a `request` object that contains `params` and `query` objects.
+
+Whatever is returned by the callback function will be the mapped URL.
+
 ```javascript
 urly.register('/users/:userId/photos/:photoId?page&perPage', function(request) {
-    // Callback function will be invoked with a request object that contains `params` and `query` objects.
-    // Whatever we return will be the mapped URL.
     var query = {
         user: request.params.userId,
         photo: request.params.photoId,
