@@ -1,26 +1,25 @@
 {
-  "name": "ifwe-npm-seed",
-  "version": "0.0.0",
-  "description": "If(we)'s seed project for NPM packages",
+  "name": "urly",
+  "version": "0.0.1",
+  "description": "Easily convert URLs from one format to another",
   "main": "lib/index.js",
   "scripts": {
     "test": "grunt test"
   },
   "repository": {
     "type": "git",
-    "url": "http://github.com/ifwe/npm-seed.git"
+    "url": "http://github.com/ifwe/urly.git"
   },
   "keywords": [
-    "ifwe",
-    "npm",
-    "seed"
+    "url",
+    "format"
   ],
   "author": "Hector Virgen <djvirgen@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ifwe/npm-seed/issues"
+    "url": "https://github.com/ifwe/urly/issues"
   },
-  "homepage": "https://github.com/ifwe/npm-seed",
+  "homepage": "https://github.com/ifwe/urly",
   "devDependencies": {
     "blanket": "^1.1.6",
     "chai": "^1.9.1",
