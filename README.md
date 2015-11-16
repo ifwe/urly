@@ -3,8 +3,6 @@ Urly
 
 Easily convert the format of your URLs.
 
-## Example
-
 ```javascript
 var Urly = require('urly');
 var urly = new Urly();
@@ -20,6 +18,18 @@ urly.map('/users.html'); // returns `false`, missing `userId` query string param
 urly.map('/photos/789'); // returns `/photos.html?photoId=789`
 urly.map('/photos'); // returns `false`, missing `photoId` param
 ```
+
+## Installation
+
+```bash
+$ npm install express
+```
+
+## Features
+
+- Can match URLs by pattern, e.g. `/users/:userId`.
+- Can require specific query string parameters to be considered a match, e.g. `/foo?a&b&c`.
+- Can accept a callback for complex URL transformations.
 
 ## Advanced Usage
 
