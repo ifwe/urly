@@ -12,11 +12,11 @@ urly.register('/users.html?userId', '/users/:userId');
 urly.register('/photos/:photoId', '/photos.html?photoId=:photoId');
 
 // Map your urls!
-urly.map('/users.html?userId=123'); // returns `/users/123`
-urly.map('/users.html?userId=456'); // returns `/users/456`
-urly.map('/users.html'); // returns `false`, missing `userId` query string parameter
-urly.map('/photos/789'); // returns `/photos.html?photoId=789`
-urly.map('/photos'); // returns `false`, missing `photoId` param
+urly.map('/users.html?userId=123');     // returns `/users/123`
+urly.map('/users.html?userId=456');     // returns `/users/456`
+urly.map('/users.html');                // returns `false`, missing `userId` query string parameter
+urly.map('/photos/789');                // returns `/photos.html?photoId=789`
+urly.map('/photos');                    // returns `false`, missing `photoId` param
 ```
 
 ## Installation
@@ -32,6 +32,9 @@ $ npm install express
 - Can accept a callback for complex URL transformations.
 
 ## Advanced Usage
+
+
+### Callback Functions
 
 You may provide a callback function to handle mapping the URL. When matched, the callback function will be invoked with a `request` object that contains `params` and `query` objects.
 
@@ -50,6 +53,27 @@ urly.register('/users/:userId/photos/:photoId?page&perPage', function(request) {
 
 urly.map('/users/123/photos/456?page=3&perPage=10');
 // returns `/photo_gallery.html?user=123&photo=456&page=3&perPage=10
+```
+
+### Extra Params
+
+In some cases you'll need to provide extra parameters to help create the target url. Simply pass in an object with the extra params to help map the URL:
+
+```javascript
+// Pattern to pattern conversion
+urly.register('/photos/:photoId', '/users/:userId/photos/:photoId');
+urly.map('/photos/123', {
+    userId: 456
+}); // returns /users/456/photos/123
+
+// Pattern to callback conversion
+urly.register('/photos/:photoId', function(request) {
+    request.params.userId; // 456
+    return '/users/' + request.params.userId + '/photos/' + request.params.photoId;
+});
+urly.map('/photos/123', {
+    userId: 456
+}); // returns /users/456/photos/123
 ```
 
 ## Files and Directory Structure

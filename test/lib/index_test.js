@@ -68,16 +68,37 @@ describe('Urly', function() {
             this.urly.map('/foo?bar=123&flerp=789').should.equal('/bar?bar=123&flerp=789');
         });
 
-        it('accepts a string to as a pattern target', function() {
-            this.urly.register('/foo/:fooId', '/bar/baz/:fooId');
-            this.urly.register('/bar/:barId', '/?bar=:barId');
-            this.urly.register('/derp/:a?b&c', '/?aa=:a&bb=:b&cc=:c');
-            this.urly.register('/users.html?userId', '/users/:userId');
+        [
+            ['/foo/:fooId', '/bar/baz/:fooId', '/foo/123', '/bar/baz/123'],
+            ['/bar/:barId', '/?bar=:barId', '/bar/123', '/?bar=123'],
+            ['/derp/:a?b&c', '/?aa=:a&bb=:b&cc=:c', '/derp/123?b=456&c=789', '/?aa=123&bb=456&cc=789'],
+            ['/users.html?userId', '/users/:userId', '/users.html?userId=123', '/users/123']
+        ].forEach(function(data, i) {
+            var pattern = data[0];
+            var mapper = data[1];
+            var fromUrl = data[2];
+            var expectedToUrl = data[3];
+            it('accepts a string to as a pattern target #' + i, function() {
+                this.urly.register(pattern, mapper);
+                this.urly.map(fromUrl).should.equal(expectedToUrl);
+            });
+        });
 
-            this.urly.map('/foo/123').should.equal('/bar/baz/123');
-            this.urly.map('/bar/123').should.equal('/?bar=123');
-            this.urly.map('/derp/123?b=456&c=789').should.equal('/?aa=123&bb=456&cc=789');
-            this.urly.map('/users.html?userId=123').should.equal('/users/123');
+        [
+            ['/foo/:fooId', '/bar/:fooId/derp/:derpId', { derpId: 456 }, '/foo/123', '/bar/123/derp/456'],
+            ['/bar/:barId', function(request) {
+                return '/herp/' + request.params.barId + '/derp/' + request.params.derpId;
+            }, { derpId: 456 }, '/bar/123', '/herp/123/derp/456']
+        ].forEach(function(data, i) {
+            var pattern = data[0];
+            var mapper = data[1];
+            var extraParams = data[2];
+            var fromUrl = data[3];
+            var expectedToUrl = data[4];
+            it('accepts extra params to create url #' + i, function() {
+                this.urly.register(pattern, mapper);
+                this.urly.map(fromUrl, extraParams).should.equal(expectedToUrl);
+            });
         });
 
         it('returns `false` when no match', function() {
