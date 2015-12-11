@@ -22,7 +22,7 @@ urly.map('/photos');                    // returns `false`, missing `photoId` pa
 ## Installation
 
 ```bash
-$ npm install express
+$ npm install --save urly
 ```
 
 ## Features
