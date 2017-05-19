@@ -1,6 +1,6 @@
 {
   "name": "urly",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Easily convert URLs from one format to another",
   "main": "lib/index.js",
   "scripts": {
